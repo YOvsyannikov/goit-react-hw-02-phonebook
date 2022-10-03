@@ -1,29 +1,26 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './ContactList.module.css';
+import s from './ContactList.module.css';
 
-const ContactList = ({ contacts, onRemoveContact }) => (
-  <ul className={styles.TaskList}>
-    {contacts.map(contact => (
-      <li className={styles.TaskList_item} key={contact.id}>
-        {contact.name + ':' + contact.number}
-        {
+function ContactList({ contacts, onDeleteContact }) {
+  return (
+    <ul className={s.list}>
+      {contacts.map(({ id, name, number }) => (
+        <li className={s.item} key={id}>
+          <p className={s.info}>
+            {name}: {number}
+          </p>
           <button
-            className={styles.TaskList_button}
+            className={s.btn}
             type="button"
-            name="delte"
-            onClick={() => onRemoveContact(contact.id)}
-          >
-            delete
-          </button>
-        }
-      </li>
-    ))}
-  </ul>
-);
+            onClick={() => onDeleteContact(id)}
+          />
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 ContactList.propTypes = {
-  onRemoveContact: PropTypes.func.isRequired,
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -31,5 +28,7 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ),
+  onDeleteContact: PropTypes.func.isRequired,
 };
+
 export default ContactList;

@@ -1,51 +1,54 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
-import styles from './ContactForm.module.css';
+import s from './ContactForm.module.css';
 
-export default class ContactForm extends Component {
+class ContactForm extends Component {
   state = {
     name: '',
     number: '',
   };
 
   handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value,
-    });
+    const { name, value } = e.currentTarget;
+
+    this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
 
-    this.props.onAddContact({ ...this.state });
+    this.props.onSubmit(this.state);
 
     this.setState({ name: '', number: '' });
   };
+
   render() {
+    const { name, number } = this.state;
     return (
-      <form className={styles.TaskEditor} onSubmit={this.handleSubmit}>
-        <label className={styles.TaskEditor_label}>
+      <form className={s.form} onSubmit={this.handleSubmit}>
+        <label className={s.label}>
           Name
           <input
-            className={styles.TaskEditor_input}
+            className={s.input}
             type="text"
             name="name"
-            value={this.state.name}
+            value={name}
             onChange={this.handleChange}
+            placeholder="Ivan Ivanov"
           />
         </label>
-        <label className={styles.TaskEditor_label}>
+        <label className={s.label}>
           Number
           <input
-            className={styles.TaskEditor_input}
+            className={s.input}
             type="text"
             name="number"
-            value={this.state.number}
+            value={number}
             onChange={this.handleChange}
+            placeholder="111-11-11"
           />
         </label>
-        <button className={styles.TaskEditor_button} type="submit">
+        <button className={s.btn} type="submit">
           Add contact
         </button>
       </form>
@@ -54,7 +57,7 @@ export default class ContactForm extends Component {
 }
 
 ContactForm.propTypes = {
-  onAddContact: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
+
+export default ContactForm;
